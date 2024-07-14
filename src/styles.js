@@ -7,7 +7,18 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff'
     },
-    
+    headerText:{
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#6C63FF'
+    },
+    headerSubText:{
+        fontSize: 17,
+        textAlign: 'center',
+        marginBottom: 20,
+        color: '#6C63FF'
+    },
     imageContainer: {
         flex: 1,
         marginTop: 80,
@@ -29,14 +40,14 @@ export default StyleSheet.create({
         maxWidth: 400
     },
     containerButtonText: {
-        color: '#ffffff', // Text color
-        fontSize: 16, // Text size
-        fontWeight: 'bold', // Text weight
+        color: '#ffffff', 
+        fontSize: 16, 
+        fontWeight: 'bold', 
     }, 
     textButton: {
-        color: '#6C63FF', // Text color
-        fontSize: 16, // Text size
-        fontWeight: 'bold', // Text weigh
+        color: '#6C63FF', 
+        fontSize: 16, 
+        fontWeight: 'bold', 
         width: '100%', 
         paddingHorizontal: 16,
         alignItems: 'center',
@@ -47,22 +58,21 @@ export default StyleSheet.create({
         fontSize: 16, 
         fontWeight: 'bold',
         width: '100%', 
-        backgroundColor: '#eeeeee',
-       
+      //  backgroundColor: '#eeeeee',
     },
     textRowContainer: {
-        flexDirection: 'row', // Set direction to row to align children horizontally
-        justifyContent: 'center', // Center children horizontally
-        alignItems: 'center', // Center children vertically
-        padding: 16,
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        paddingBottom: 16,
     },
    
     inputContainer: {
         marginTop: 0,
-        flex: 1, // Use flex to take up space and center inputs
+        flex: 1, 
         alignItems: 'center',
-        width: '100%', // Ensure inputs take full width of the container
-        maxWidth: 400, // Set a maximum width for the input container
+        width: '100%', 
+        maxWidth: 400, 
     },
     modalTextHeadLine: {
         fontSize: 20,
@@ -93,6 +103,15 @@ export default StyleSheet.create({
         width: '100%',
         borderRadius: 12 
     },
-    inputFields: { height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 30, paddingHorizontal: 8, borderRadius: 8, width: '90%', maxWidth: 400 },
-
+    inputFields: { 
+        height: 40, 
+        borderColor: '#6C63FF', 
+        borderWidth: 1, 
+        marginTop: 15,
+        marginBottom: 15, 
+        paddingHorizontal: 8, 
+        borderRadius: 8, 
+        width: '90%', 
+        maxWidth: 400 
+    },
 })

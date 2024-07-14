@@ -5,6 +5,7 @@ import globalStyles from '../styles';
 
 const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setconfirmPassword] = useState('');
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -16,6 +17,10 @@ const SignUpScreen = ({ navigation }) => {
     const handleSignUp = async () => {
         if (!email) {
             Alert.alert("Email is Empty");
+            return;
+        }
+        else if (!name) {
+            Alert.alert("Name is Empty");
             return;
         }
         else if (!validateEmail(email)) {
@@ -34,12 +39,12 @@ const SignUpScreen = ({ navigation }) => {
             return;
         } else {
             try {
-                await signUp(email, password);
+                await signUp(email, password, name);
                 setEmail('')
                 setPassword('')
+                setName('')
                 setconfirmPassword('')
-                navigation.navigate('HomeScreen');
-                Alert.alert("SignUp Successful!")
+                navigation.navigate('Main', { screen: 'HomeScreen' });                 Alert.alert("SignUp Successful!")
             }
             catch (error) {
                 Alert.alert(error.message)
@@ -51,14 +56,23 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={globalStyles.screenContainer}>
-             <View style={globalStyles.imageContainer}>
+             {/* <View style={globalStyles.imageContainer}>
                 <Image source={require('../../assets/task_management.png')} style={globalStyles.image} />
-            </View>
+            </View> */}
+            <Text style={globalStyles.headerText}>Welcome</Text>
+            <Text style={globalStyles.headerSubText}>Please enter your details!</Text>
+
             <View style={globalStyles.inputContainer}>
                 <TextInput
                     placeholder="Email"
                     value={email}
                     onChangeText={setEmail}
+                    style={globalStyles.inputFields}
+                />
+                 <TextInput
+                    placeholder="Name"
+                    value={name}
+                    onChangeText={setName}
                     style={globalStyles.inputFields}
                 />
                 {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}> */}

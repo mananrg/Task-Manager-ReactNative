@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, Image, Modal, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Alert, Image, Modal, SafeAreaView ,Button } from 'react-native';
 import { signIn, sendPasswordReset } from '../Firebase/auth';
 import globalStyles from '../styles';
 
 const LoginScreen = ({ navigation }) => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -14,29 +14,30 @@ const LoginScreen = ({ navigation }) => {
     function validateEmail(email) {
         return emailRegex.test(email);
     }
+
     const handleLogin = async () => {
         if (!email) {
             Alert.alert("Email is Empty!");
             return;
-        }
-        else if (!validateEmail(email)) {
+        } else if (!validateEmail(email)) {
             Alert.alert("Enter a valid Email!");
             return;
-        }
-        else if (!password) {
+        } else if (!password) {
             Alert.alert("Password is Empty!");
             return;
         }
+        
         try {
             await signIn(email, password);
-            setEmail('')
-            setPassword('')
-            navigation.navigate('HomeScreen');
-            Alert.alert("Login Successful!")
+            setEmail('');
+            setPassword('');
+            navigation.navigate('Main', { screen: 'HomeScreen' }); // Navigate to 'HomeScreen' in 'MainTabNavigator'
+            Alert.alert("Login Successful!");
         } catch (error) {
-            Alert.alert(error.message)
+            Alert.alert(error.message);
         }
     };
+
     const handleForgotPassword = () => {
         if (!forgotPasswordEmail) {
             Alert.alert("Email is Empty");
@@ -46,20 +47,24 @@ const LoginScreen = ({ navigation }) => {
             Alert.alert("Enter a valid Email");
             return;
         }
-        sendPasswordReset(forgotPasswordEmail)
+        
+        sendPasswordReset(forgotPasswordEmail);
         setModalVisible(false);
         Alert.alert("Password reset link sent!");
     };
+
     return (
         <SafeAreaView style={globalStyles.screenContainer}>
             <View style={globalStyles.imageContainer}>
                 <Image source={require('../../assets/task_management.png')} style={globalStyles.image} />
             </View>
+            <Text style={globalStyles.headerText}>Welcome Back!</Text>
             <View style={globalStyles.inputContainer}>
                 <TextInput
                     placeholder="Email"
                     value={email}
                     onChangeText={setEmail}
+                    keyboardType="email-address"
                     style={globalStyles.inputFields}
                 />
                 <TextInput
@@ -67,10 +72,10 @@ const LoginScreen = ({ navigation }) => {
                     value={password}
                     onChangeText={setPassword}
                     style={globalStyles.inputFields}
-                // secureTextEntry={true}
+                    secureTextEntry={true} // Ensure secureTextEntry is enabled for password input
                 />
                 
-                <TouchableOpacity   onPress={() => setModalVisible(true)}>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Text style={globalStyles.forgotPasswordButton}>Forgot Password?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={globalStyles.containerButton} onPress={handleLogin}>
@@ -78,7 +83,7 @@ const LoginScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={globalStyles.textRowContainer}>
-                <Text >Dont have an account? </Text>
+                <Text >Don't have an account?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                     <Text style={globalStyles.textButton}>Sign Up</Text>
                 </TouchableOpacity>
@@ -103,15 +108,11 @@ const LoginScreen = ({ navigation }) => {
                             <Button title="Submit" onPress={handleForgotPassword} />
                             <Button title="Cancel" onPress={() => setModalVisible(false)} />
                         </View>
-
                     </View>
                 </View>
             </Modal>
         </SafeAreaView>
     );
 };
-const styles = StyleSheet.create({
-    
-});
 
 export default LoginScreen;
