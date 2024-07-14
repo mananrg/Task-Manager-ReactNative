@@ -1,13 +1,19 @@
 // FirebaseService.js
 
-import { collection, getDocs, orderBy, query, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { firestore } from '../Firebase/firebase';
+import { collection, getDocs, orderBy, query, addDoc, updateDoc, deleteDoc, doc, where } from 'firebase/firestore';
+import { firestore, auth } from '../Firebase/firebase';
 
 export const fetchTodos = async () => {
     try {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error('User not authenticated.');
+        }
+        
         const todoRef = collection(firestore, 'todos');
-        const q = query(todoRef, orderBy('createdAt', 'desc'));
+        const q = query(todoRef, where('userId', '==', user.uid), orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
+        
         return snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),

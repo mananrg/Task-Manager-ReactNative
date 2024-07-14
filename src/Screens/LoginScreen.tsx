@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, Image, Modal, SafeAreaView ,Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, Platform, Image, Modal, SafeAreaView ,Button,  KeyboardAvoidingView, ScrollView } from 'react-native';
 import { signIn, sendPasswordReset } from '../Firebase/auth';
 import globalStyles from '../styles';
 
@@ -54,7 +54,13 @@ const LoginScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={globalStyles.screenContainer}>
+        <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+        <SafeAreaView style={globalStyles.container}>
+        <ScrollView contentContainerStyle={globalStyles.scrollViewContent}>
+
             <View style={globalStyles.imageContainer}>
                 <Image source={require('../../assets/task_management.png')} style={globalStyles.image} />
             </View>
@@ -111,7 +117,11 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
+            </ScrollView>
+
         </SafeAreaView>
+        </KeyboardAvoidingView>
+
     );
 };
 

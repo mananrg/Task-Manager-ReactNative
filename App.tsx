@@ -1,17 +1,21 @@
 import React from "react";
 import { LogBox } from 'react-native';
 import Navigation from './src/Support/Navigation';
+import messaging from '@react-native-firebase/messaging';
 
-// Ignore specific logs and warnings
+
+// Ignoring all screen warnings
 LogBox.ignoreLogs([
-  'Warning: ...', // add specific warnings here
+  'Warning: ...', 
 ]);
 LogBox.ignoreLogs([
     'Console Warning: ...'
 ])
 LogBox.ignoreAllLogs()
 
+
 const App = () => {
+
     return <Navigation />;
 }
 

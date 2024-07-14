@@ -44,7 +44,8 @@ const SignUpScreen = ({ navigation }) => {
                 setPassword('')
                 setName('')
                 setconfirmPassword('')
-                navigation.navigate('Main', { screen: 'HomeScreen' });                 Alert.alert("SignUp Successful!")
+                navigation.navigate('Main', { screen: 'HomeScreen' });              
+                Alert.alert("SignUp Successful!")
             }
             catch (error) {
                 Alert.alert(error.message)
