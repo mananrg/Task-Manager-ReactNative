@@ -6,7 +6,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        width: '100%'
+        width: '100%',
     },
     container: {
         flex: 1,
@@ -122,15 +122,23 @@ export default StyleSheet.create({
         width: '90%', 
         maxWidth: 400 
     },
-    /* {} */
+    /* { Home Screen } */
     
     scrollViewContent: {
         flexGrow: 1,
 width: '100%'
     },
+    deadlineText:{
+        fontSize: 22,
+        fontWeight: 'semibold',
+        marginBottom: 20,
+        color: '#6C63FF'
+    },
     dateButton: {
         backgroundColor: '#f9f9f9',
         padding: 15,
+        borderRadius: 8,
+        elevation: 12,
         alignItems: 'center',
         marginBottom: 10,
     },
@@ -270,5 +278,37 @@ width: '100%'
     leaderboardCount: {
         fontSize: 18,
         color: '#6C63FF',
+    },
+    periodContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+    },
+    periodButton: {
+        padding: 10,
+        borderRadius: 20,
+        borderWidth: '1px',
+        borderColor: '#6C63FF',
+        backgroundColor: '#fff',
+        minWidth: 80,
+        alignItems: 'center',
+    },
+    activePeriodButton: {
+        backgroundColor: '#6C63FF',
+    },
+    periodButtonText: {
+        color: '#6C63FF',
+        fontWeight: '600',
+    },
+    activePeriodButtonText: {
+        color: '#fff',
+    },
+    leaderboardRank: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginRight: 10,
+        width: 30,
+        textAlign: 'center',
     },
 })

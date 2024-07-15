@@ -6,7 +6,7 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../Firebase/firebase';
-import { fetchTodos, addTodo, updateTodo, deleteTodo, toggleTodoStatus } from '../Firebase/firebaseService';
+import { addTodo, updateTodo, deleteTodo, toggleTodoStatus, fetchTodosUser } from '../Firebase/firebaseService';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '../styles';
@@ -29,7 +29,7 @@ const HomeScreen = () => {
 
     const fetchTodosData = async () => {
         try {
-            const todosList = await fetchTodos();
+            const todosList = await fetchTodosUser();
             setTodos(todosList);
         } catch (error) {
             console.error("Error fetching todos: ", error);
@@ -129,6 +129,7 @@ const HomeScreen = () => {
                         value={addData}
                         onChangeText={(text) => setAddData(text)}
                     />
+                        <Text style={globalStyles.deadlineText}>Select a Deadline:</Text>
                     <TouchableOpacity onPress={showDatePicker} style={globalStyles.dateButton}>
                         <Text style={globalStyles.dateButtonText}>
                             {deadline ? deadline.toLocaleDateString() + ' ' + deadline.toLocaleTimeString() : 'Set Deadline'}

@@ -1,4 +1,4 @@
-// FirebaseService.js
+// FirebaseService.ts
 
 import { collection, getDocs, orderBy, query, addDoc, updateDoc, deleteDoc, doc, where } from 'firebase/firestore';
 import { firestore, auth } from '../Firebase/firebase';
@@ -24,7 +24,26 @@ export const fetchTodos = async () => {
         return [];
     }
 };
-
+export const fetchTodosUser = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error('No user logged in');
+  
+      const todoRef = collection(firestore, 'todos');
+      const q = query(todoRef, where('userId', '==', user.uid));
+      const querySnapshot = await getDocs(q);
+  
+      return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        deadline: doc.data().deadline.toDate(),
+        createdAt: doc.data().createdAt.toDate()
+      }));
+    } catch (error) {
+      console.error("Error fetching todos: ", error);
+      throw error;
+    }
+  };
 export const addTodo = async (newTodo) => {
     try {
         await addDoc(collection(firestore, 'todos'), newTodo);
