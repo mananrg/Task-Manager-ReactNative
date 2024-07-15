@@ -13,10 +13,13 @@ const SignUpScreen = ({ navigation }) => {
         return emailRegex.test(email);
     }
 
-    
+
     const handleSignUp = async () => {
         if (!email) {
             Alert.alert("Email is Empty");
+            return;
+        } else if (!validateEmail(email)) {
+            Alert.alert("Enter a valid Email!");
             return;
         }
         else if (!name) {
@@ -29,6 +32,9 @@ const SignUpScreen = ({ navigation }) => {
         else if (!password) {
             Alert.alert("Password is Empty");
             return;
+        }
+        else if (password.length < 8) {
+            Alert.alert("Enter a strong password!");
         }
         else if (!confirmPassword) {
             Alert.alert("ConfirmPassword is Empty");
@@ -44,7 +50,7 @@ const SignUpScreen = ({ navigation }) => {
                 setPassword('')
                 setName('')
                 setconfirmPassword('')
-                navigation.navigate('Main', { screen: 'HomeScreen' });              
+                navigation.navigate('Main', { screen: 'HomeScreen' });
                 Alert.alert("SignUp Successful!")
             }
             catch (error) {
@@ -57,7 +63,7 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={globalStyles.screenContainer}>
-             {/* <View style={globalStyles.imageContainer}>
+            {/* <View style={globalStyles.imageContainer}>
                 <Image source={require('../../assets/task_management.png')} style={globalStyles.image} />
             </View> */}
             <Text style={globalStyles.headerText}>Welcome</Text>
@@ -70,7 +76,7 @@ const SignUpScreen = ({ navigation }) => {
                     onChangeText={setEmail}
                     style={globalStyles.inputFields}
                 />
-                 <TextInput
+                <TextInput
                     placeholder="Name"
                     value={name}
                     onChangeText={setName}

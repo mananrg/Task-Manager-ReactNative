@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
             navigation.navigate('Main', { screen: 'HomeScreen' }); // Navigate to 'HomeScreen' in 'MainTabNavigator'
             Alert.alert("Login Successful!");
         } catch (error) {
-            Alert.alert(error.message);
+            Alert.alert("Invalid credential\nTry again!");
         }
     };
 
