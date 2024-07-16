@@ -227,14 +227,10 @@ width: '100%'
     modalInput: {
         borderWidth: 1,
         borderColor: '#ddd',
-        paddingHorizontal: 8, 
-        height: 40,
-        paddingVertical: 20,
-        borderRadius: 8,
+        padding: 10,
         marginBottom: 15,
         width: '100%',
         fontSize: 18,
-        flex: 1
     },
     modalButtonContainer: {
         flexDirection: 'row',

@@ -70,7 +70,7 @@ const HomeScreen = () => {
             };
             await updateTodo(editTodoId, updatedFields);
             setEditModalVisible(false);
-            setEditTodoText('');   
+            // setEditTodoText('');   
             Alert.alert("Item Edited Successfully!");
             fetchTodosData();
         } catch (error) {
