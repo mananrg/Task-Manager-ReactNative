@@ -1,49 +1,49 @@
-// FirebaseService.ts
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, where, query } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth, firestore, storage } from './firebase'; // Adjust path as per your project structure
 
-import { collection, getDocs, orderBy, query, addDoc, updateDoc, deleteDoc, doc, where } from 'firebase/firestore';
-import { firestore, auth } from '../Firebase/firebase';
+export const uploadImage = async (blob: Blob): Promise<string> => {
+    try {
+        // Generate a unique image name
+        const imageName = `${new Date().getTime()}_image`;
 
-export const fetchTodos = async () => {
+        // Create a reference to the image path
+        const imageRef = ref(storage, `images/${imageName}`);
+
+        // Upload blob to Firebase Storage
+        const snapshot = await uploadBytes(imageRef, blob);
+
+        // Get the download URL for the image
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        return downloadURL;
+    } catch (error) {
+        console.error('Error uploading image: ', error);
+        throw error; // Handle error appropriately in your application
+    }
+};
+
+export const fetchTodosUser = async () => {
     try {
         const user = auth.currentUser;
-        if (!user) {
-            throw new Error('User not authenticated.');
-        }
-        
+        if (!user) throw new Error('No user logged in');
+    
         const todoRef = collection(firestore, 'todos');
-        const q = query(todoRef, where('userId', '==', user.uid), orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
-        
-        return snapshot.docs.map(doc => ({
+        const q = query(todoRef, where('userId', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+    
+        return querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-            deadline: doc.data().deadline ? doc.data().deadline.toDate() : new Date()
+            deadline: doc.data().deadline.toDate(),
+            createdAt: doc.data().createdAt.toDate()
         }));
     } catch (error) {
         console.error("Error fetching todos: ", error);
-        return [];
+        throw error;
     }
 };
-export const fetchTodosUser = async () => {
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error('No user logged in');
-  
-      const todoRef = collection(firestore, 'todos');
-      const q = query(todoRef, where('userId', '==', user.uid));
-      const querySnapshot = await getDocs(q);
-  
-      return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        deadline: doc.data().deadline.toDate(),
-        createdAt: doc.data().createdAt.toDate()
-      }));
-    } catch (error) {
-      console.error("Error fetching todos: ", error);
-      throw error;
-    }
-  };
+
 export const addTodo = async (newTodo) => {
     try {
         await addDoc(collection(firestore, 'todos'), newTodo);

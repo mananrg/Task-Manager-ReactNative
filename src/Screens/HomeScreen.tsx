@@ -6,10 +6,11 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../Firebase/firebase';
-import { addTodo, updateTodo, deleteTodo, toggleTodoStatus, fetchTodosUser } from '../Firebase/firebaseService';
+import { addTodo, updateTodo, deleteTodo, toggleTodoStatus, fetchTodosUser, uploadImage } from '../Firebase/firebaseService';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '../styles';
+import * as ImagePicker from 'expo-image-picker';
 
 const HomeScreen = () => {
     const [todos, setTodos] = useState([]);
@@ -21,6 +22,8 @@ const HomeScreen = () => {
     const [editTodoText, setEditTodoText] = useState('');
     const [editTodoDeadline, setEditTodoDeadline] = useState(new Date());
     const navigation = useNavigation();
+    const [imageUrl, setImageUrl] = useState(undefined);
+
     const user = auth.currentUser;
 
     useEffect(() => {
@@ -36,6 +39,26 @@ const HomeScreen = () => {
         }
     };
 
+    const pickImage = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                quality: 1,
+            });
+
+            if (!result.canceled && result.assets.length > 0) {
+                const response = await fetch(result.assets[0].uri);
+                const blob = await response.blob();
+                const imageUrl = await uploadImage(blob);
+                setImageUrl(imageUrl);
+            }
+        } catch (error) {
+            console.error('Error picking image: ', error);
+            Alert.alert('Error', 'Failed to pick an image.');
+        }
+    };
+
     const handleAddTodo = async () => {
         try {
             if (addData && addData.length > 0 && user) {
@@ -46,10 +69,13 @@ const HomeScreen = () => {
                     deadline: deadline,
                     userId: user.uid,
                     status: 'pending',
+                    imageUrl: imageUrl || '',
+
                 };
                 await addTodo(newTodo);
                 setAddData('');
                 setDeadline(new Date());
+                setImageUrl(undefined);
                 Keyboard.dismiss();
                 fetchTodosData();
                 Alert.alert("Item Added to List");
@@ -70,7 +96,6 @@ const HomeScreen = () => {
             };
             await updateTodo(editTodoId, updatedFields);
             setEditModalVisible(false);
-            // setEditTodoText('');   
             Alert.alert("Item Edited Successfully!");
             fetchTodosData();
         } catch (error) {

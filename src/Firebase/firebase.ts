@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_ID, APP_ID } from '@env';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 console.log("API_KEY:", API_KEY);
 console.log("Initializing Firebase with configuration...");
@@ -21,8 +22,7 @@ console.log("Firebase initialized successfully.");
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
-console.log("Firebase Authentication initialized.");
-export const firestore = getFirestore(app);
+const firestore = getFirestore(app);
+const storage = getStorage(app);
 
-
-export { auth };
+export { auth, firestore, storage };
